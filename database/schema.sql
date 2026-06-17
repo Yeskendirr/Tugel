@@ -1,53 +1,58 @@
--- Колледж жабдықтарын түгендеу — дерекқор схемасы
+-- Колледж жабдықтарын түгендеу — PostgreSQL схемасы
 
-CREATE DATABASE IF NOT EXISTS college_inventory
-  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE college_inventory;
+-- Типтер
+DO $$ BEGIN
+  CREATE TYPE user_role AS ENUM ('admin', 'staff');
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
 
--- Пайдаланушылар (әкімші / қызметкер)
-CREATE TABLE users (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  full_name VARCHAR(255) NOT NULL,
-  username VARCHAR(100) NOT NULL UNIQUE,
+DO $$ BEGIN
+  CREATE TYPE equipment_status AS ENUM ('working', 'repair', 'written_off');
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
+
+-- Пайдаланушылар
+CREATE TABLE IF NOT EXISTS users (
+  id           SERIAL PRIMARY KEY,
+  full_name    VARCHAR(255) NOT NULL,
+  username     VARCHAR(100) NOT NULL UNIQUE,
   password_hash VARCHAR(255) NOT NULL,
-  role ENUM('admin', 'staff') NOT NULL DEFAULT 'staff',
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  role         user_role NOT NULL DEFAULT 'staff',
+  created_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Санаттар (жабдық түрлері)
-CREATE TABLE categories (
-  id INT AUTO_INCREMENT PRIMARY KEY,
+-- Санаттар
+CREATE TABLE IF NOT EXISTS categories (
+  id   SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL
 );
 
--- Кабинеттер / бөлмелер
-CREATE TABLE rooms (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(255) NOT NULL,
+-- Кабинеттер
+CREATE TABLE IF NOT EXISTS rooms (
+  id       SERIAL PRIMARY KEY,
+  name     VARCHAR(255) NOT NULL,
   building VARCHAR(255)
 );
 
 -- Жабдықтар
-CREATE TABLE equipment (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(255) NOT NULL,
+CREATE TABLE IF NOT EXISTS equipment (
+  id               SERIAL PRIMARY KEY,
+  name             VARCHAR(255) NOT NULL,
   inventory_number VARCHAR(100) UNIQUE,
-  category_id INT,
-  room_id INT,
-  status ENUM('working', 'repair', 'written_off') NOT NULL DEFAULT 'working',
-  purchase_date DATE,
-  price DECIMAL(12,2),
-  notes TEXT,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL,
-  FOREIGN KEY (room_id) REFERENCES rooms(id) ON DELETE SET NULL
+  category_id      INT REFERENCES categories(id) ON DELETE SET NULL,
+  room_id          INT REFERENCES rooms(id) ON DELETE SET NULL,
+  status           equipment_status NOT NULL DEFAULT 'working',
+  purchase_date    DATE,
+  price            NUMERIC(12, 2),
+  notes            TEXT,
+  created_at       TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Түгендеу актілері
-CREATE TABLE inventory_checks (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  user_id INT,
+CREATE TABLE IF NOT EXISTS inventory_checks (
+  id         SERIAL PRIMARY KEY,
+  user_id    INT REFERENCES users(id) ON DELETE SET NULL,
   check_date DATE NOT NULL,
-  notes TEXT,
-  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+  notes      TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

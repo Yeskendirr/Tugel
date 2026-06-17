@@ -1,0 +1,19 @@
+.inv-new-wrap { max-width: 560px; }
+.inv-error {
+  background: var(--color-danger-light);
+  color: var(--color-danger);
+  border: 1px solid #f5c6cb;
+  border-radius: var(--radius);
+  padding: 9px 12px;
+  font-size: 13px;
+  margin-bottom: 14px;
+}
+.inv-new-form { display: flex; flex-direction: column; gap: 14px; }
+.inv-new-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  padding-top: 8px;
+  border-top: 1px solid var(--color-border);
+  margin-top: 4px;
+}

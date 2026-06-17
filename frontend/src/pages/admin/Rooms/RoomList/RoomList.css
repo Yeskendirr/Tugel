@@ -1,0 +1,24 @@
+.muted-num  { color: var(--color-text-muted); width: 36px; }
+.count-badge {
+  display: inline-block;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  padding: 2px 10px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+.row-actions { display: flex; gap: 4px; white-space: nowrap; }
+.del-btn:hover { color: var(--color-danger); border-color: var(--color-danger-light); }
+
+.modal-error {
+  background: var(--color-danger-light);
+  color: var(--color-danger);
+  border: 1px solid #f5c6cb;
+  border-radius: var(--radius);
+  padding: 8px 12px;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+.modal-form { display: flex; flex-direction: column; gap: 14px; }
+.modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 4px; }

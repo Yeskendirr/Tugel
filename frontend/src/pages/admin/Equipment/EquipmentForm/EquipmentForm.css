@@ -1,0 +1,28 @@
+.eq-form-wrap { max-width: 800px; }
+
+.eq-form-error {
+  background: var(--color-danger-light);
+  color: var(--color-danger);
+  border: 1px solid #f5c6cb;
+  border-radius: var(--radius);
+  padding: 9px 12px;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.eq-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.eq-form-notes { grid-column: 1 / -1; }
+@media (max-width: 600px) { .eq-form-grid { grid-template-columns: 1fr; } }
+
+.eq-form-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border);
+}

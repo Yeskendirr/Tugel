@@ -1,0 +1,2 @@
+.confirm-msg { font-size: 14px; color: var(--color-text); margin-bottom: 16px; }
+.confirm-actions { display: flex; gap: 8px; justify-content: flex-end; }

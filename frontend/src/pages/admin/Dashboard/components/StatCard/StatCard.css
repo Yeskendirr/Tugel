@@ -1,0 +1,57 @@
+.stat-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+  min-width: 0;
+}
+
+.stat-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--color-bg);
+  color: var(--color-text-muted);
+}
+.stat-card--success .stat-card-icon {
+  background: var(--color-success-light);
+  color: var(--color-success);
+}
+.stat-card--warning .stat-card-icon {
+  background: var(--color-warning-light);
+  color: var(--color-warning);
+}
+.stat-card--danger .stat-card-icon {
+  background: var(--color-danger-light);
+  color: var(--color-danger);
+}
+.stat-card--default .stat-card-icon {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+.stat-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.stat-card-value {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1;
+}
+.stat-card-label {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
