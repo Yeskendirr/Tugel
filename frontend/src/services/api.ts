@@ -19,6 +19,8 @@ export const getEquipment = (params?: Record<string, string>) =>
   api.get('/api/equipment', { params });
 export const getEquipmentById = (id: number) =>
   api.get(`/api/equipment/${id}`);
+export const getEquipmentHistory = (id: number) =>
+  api.get(`/api/equipment/${id}/history`);
 export const createEquipment = (data: Record<string, unknown>) =>
   api.post('/api/equipment', data);
 export const updateEquipment = (id: number, data: Record<string, unknown>) =>
@@ -28,6 +30,7 @@ export const deleteEquipment = (id: number) =>
 
 // Rooms
 export const getRooms = () => api.get('/api/rooms');
+export const getRoomById = (id: number) => api.get(`/api/rooms/${id}`);
 export const createRoom = (data: Record<string, unknown>) => api.post('/api/rooms', data);
 export const updateRoom = (id: number, data: Record<string, unknown>) => api.put(`/api/rooms/${id}`, data);
 export const deleteRoom = (id: number) => api.delete(`/api/rooms/${id}`);
@@ -42,6 +45,8 @@ export const deleteCategory = (id: number) => api.delete(`/api/categories/${id}`
 export const getInventory = () => api.get('/api/inventory');
 export const getInventoryById = (id: number) => api.get(`/api/inventory/${id}`);
 export const createInventory = (data: Record<string, unknown>) => api.post('/api/inventory', data);
+export const setInventoryItem = (checkId: number, equipId: number, result: string, notes?: string) =>
+  api.put(`/api/inventory/${checkId}/items/${equipId}`, { result, notes });
 
 // Reports
 export const getReportSummary  = () => api.get('/api/reports/summary');

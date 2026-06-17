@@ -8,6 +8,7 @@ import EquipmentList  from './pages/admin/Equipment/EquipmentList/EquipmentList'
 import EquipmentDetail from './pages/admin/Equipment/EquipmentDetail/EquipmentDetail';
 import EquipmentForm  from './pages/admin/Equipment/EquipmentForm/EquipmentForm';
 import RoomList       from './pages/admin/Rooms/RoomList/RoomList';
+import RoomDetail     from './pages/admin/Rooms/RoomDetail/RoomDetail';
 import CategoryList   from './pages/admin/Categories/CategoryList/CategoryList';
 import InventoryList  from './pages/admin/Inventory/InventoryList/InventoryList';
 import InventoryNew   from './pages/admin/Inventory/InventoryNew/InventoryNew';
@@ -53,6 +54,7 @@ export default function App() {
           <Route path="/equipment/:id/edit" element={<RequireAdmin><EquipmentForm /></RequireAdmin>} />
 
           <Route path="/rooms"       element={<RequireAuth><RoomList /></RequireAuth>} />
+          <Route path="/rooms/:id"   element={<RequireAuth><RoomDetail /></RequireAuth>} />
           <Route path="/categories"  element={<RequireAdmin><CategoryList /></RequireAdmin>} />
 
           <Route path="/inventory"        element={<RequireAuth><InventoryList /></RequireAuth>} />

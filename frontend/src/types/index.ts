@@ -45,8 +45,36 @@ export interface InventoryCheck {
   user_name?: string;
 }
 
+export type CheckResult = 'present' | 'damaged' | 'missing';
+
+export interface InventoryCheckItem {
+  id: number;
+  name: string;
+  inventory_number: string;
+  status: EquipmentStatus;
+  category_name?: string;
+  room_name?: string;
+  result: CheckResult | null;
+  item_notes: string | null;
+}
+
 export interface InventoryCheckDetail extends InventoryCheck {
-  equipment: Pick<Equipment, 'id' | 'name' | 'inventory_number' | 'status' | 'category_name' | 'room_name'>[];
+  room_id: number | null;
+  room_name?: string;
+  equipment: InventoryCheckItem[];
+}
+
+export interface StatusLogEntry {
+  id: number;
+  old_status: EquipmentStatus | null;
+  new_status: EquipmentStatus;
+  reason: string | null;
+  user_name: string | null;
+  created_at: string;
+}
+
+export interface RoomDetail extends Room {
+  equipment: (Pick<Equipment, 'id' | 'name' | 'inventory_number' | 'status' | 'price'> & { category_name?: string })[];
 }
 
 export interface ReportSummary {

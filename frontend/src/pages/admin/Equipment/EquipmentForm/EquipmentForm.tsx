@@ -18,11 +18,12 @@ interface FormData {
   purchase_date: string;
   price: string;
   notes: string;
+  status_reason: string;
 }
 
 const EMPTY: FormData = {
   name: '', inventory_number: '', category_id: '', room_id: '',
-  status: 'working', purchase_date: '', price: '', notes: '',
+  status: 'working', purchase_date: '', price: '', notes: '', status_reason: '',
 };
 
 export default function EquipmentForm() {
@@ -51,6 +52,7 @@ export default function EquipmentForm() {
           purchase_date:    eq.purchase_date ? eq.purchase_date.slice(0, 10) : '',
           price:            String(eq.price ?? ''),
           notes:            eq.notes ?? '',
+          status_reason:    '',
         });
       });
     }
@@ -78,6 +80,7 @@ export default function EquipmentForm() {
         purchase_date:    form.purchase_date || null,
         price:            form.price ? parseFloat(form.price) : null,
         notes:            form.notes || null,
+        status_reason:    form.status_reason || null,
       };
       if (isEdit && id) {
         await updateEquipment(parseInt(id), payload);
@@ -146,6 +149,15 @@ export default function EquipmentForm() {
                   <option value="written_off">Есептен шығарылды</option>
                 </select>
               </div>
+              {isEdit && (
+                <div className="form-group eq-form-reason">
+                  <label className="form-label">Статус өзгерту себебі</label>
+                  <input className="form-control" value={form.status_reason}
+                    onChange={e => set('status_reason', e.target.value)}
+                    placeholder="Мыс.: жөндеуге берілді, сынды..." />
+                  <p className="eq-form-hint">Тек статус өзгерсе жазылады</p>
+                </div>
+              )}
               <div className="form-group">
                 <label className="form-label">Сатып алу күні</label>
                 <input className="form-control" type="date" value={form.purchase_date}

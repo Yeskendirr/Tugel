@@ -34,3 +34,95 @@
 }
 .muted-num { color: var(--color-text-muted); width: 36px; }
 .inv-num   { font-family: monospace; font-size: 12px; color: var(--color-text-muted); }
+
+/* Нәтиже статистикасы */
+.inv-stats {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.inv-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  border: 1px solid transparent;
+}
+.inv-stat--present  { background: var(--color-success-light); color: var(--color-success); border-color: #a9dfbf; }
+.inv-stat--damaged  { background: var(--color-warning-light); color: var(--color-warning); border-color: #f9e79f; }
+.inv-stat--missing  { background: var(--color-danger-light);  color: var(--color-danger);  border-color: #f5c6cb; }
+.inv-stat--unchecked { background: var(--color-bg); color: var(--color-text-muted); border-color: var(--color-border); }
+
+/* Белгі батырмалары */
+.result-cell { padding: 6px 0 !important; }
+.result-btns { display: flex; gap: 4px; }
+.result-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-white);
+  font-size: 12px;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.result-btn:hover { border-color: var(--color-primary); color: var(--color-primary); }
+
+.result-btn--present.result-btn--active {
+  background: var(--color-success-light);
+  border-color: var(--color-success);
+  color: var(--color-success);
+}
+.result-btn--damaged.result-btn--active {
+  background: var(--color-warning-light);
+  border-color: var(--color-warning);
+  color: var(--color-warning);
+}
+.result-btn--missing.result-btn--active {
+  background: var(--color-danger-light);
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+}
+
+/* Жол бояуы */
+tr.row-damaged td { background: #fffdf0; }
+tr.row-missing td { background: #fff8f8; }
+
+.inv-saving { font-size: 12px; color: var(--color-text-muted); }
+
+/* Баспа: қол қою */
+.print-signatures {
+  display: none;
+  justify-content: space-around;
+  margin-top: 40px;
+  padding-top: 16px;
+}
+.print-sig { text-align: center; }
+.print-sig p { font-size: 13px; margin: 0 0 8px; }
+.print-sig-line {
+  width: 200px;
+  border-bottom: 1px solid #333;
+  margin: 0 auto 8px;
+}
+
+/* Баспа */
+.print-only { display: none !important; }
+
+@media print {
+  .no-print       { display: none !important; }
+  .print-only     { display: table-cell !important; }
+  .print-signatures { display: flex !important; }
+  .layout-sidebar { display: none !important; }
+  .layout-header  { display: none !important; }
+  .layout-content { padding: 0 !important; }
+  .inv-detail-page { gap: 10px; }
+  .card           { box-shadow: none !important; border: 1px solid #ccc !important; }
+  .result-btns    { display: none !important; }
+}

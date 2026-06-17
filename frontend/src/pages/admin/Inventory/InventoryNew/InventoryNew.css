@@ -9,6 +9,7 @@
   margin-bottom: 14px;
 }
 .inv-new-form { display: flex; flex-direction: column; gap: 14px; }
+.inv-new-hint { font-size: 12px; color: var(--color-text-muted); margin-top: 4px; }
 .inv-new-actions {
   display: flex;
   gap: 8px;

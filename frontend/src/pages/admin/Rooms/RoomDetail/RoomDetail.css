@@ -1,0 +1,35 @@
+.rd-page { display: flex; flex-direction: column; gap: 16px; }
+.rd-loading { padding: 40px; text-align: center; color: var(--color-text-muted); }
+.rd-header-left { display: flex; align-items: center; gap: 10px; }
+.rd-building { font-size: 13px; color: var(--color-text-muted); margin: 2px 0 0; }
+
+.rd-summary {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.rd-stat { display: flex; flex-direction: column; gap: 2px; }
+.rd-stat-val { font-size: 22px; font-weight: 600; color: var(--color-text); }
+.rd-stat-label { font-size: 12px; color: var(--color-text-muted); }
+
+.rd-num { color: var(--color-text-muted); width: 36px; }
+.rd-inv { font-family: monospace; font-size: 12px; color: var(--color-text-muted); }
+
+.rd-print-footer {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 40px;
+  font-size: 13px;
+}
+
+.print-only { display: none !important; }
+
+@media print {
+  .no-print       { display: none !important; }
+  .print-only     { display: inline !important; }
+  .rd-print-footer { display: flex !important; }
+  .layout-sidebar { display: none !important; }
+  .layout-header  { display: none !important; }
+  .card           { box-shadow: none !important; border: 1px solid #ccc !important; }
+}

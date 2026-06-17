@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import pool from '../config/db';
-import { authenticate } from '../middleware/auth';
+import { authenticate, getUser } from '../middleware/auth';
 import { requireAdmin } from '../middleware/requireAdmin';
 
 const router = Router();
@@ -52,6 +52,24 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Жабдық статус тарихы
+router.get('/:id/history', async (req, res) => {
+  try {
+    const { rows } = await pool.query(
+      `SELECT sl.id, sl.old_status, sl.new_status, sl.reason, sl.created_at,
+              u.full_name AS user_name
+       FROM equipment_status_log sl
+       LEFT JOIN users u ON sl.user_id = u.id
+       WHERE sl.equipment_id = $1
+       ORDER BY sl.created_at DESC`,
+      [req.params.id]
+    );
+    res.json(rows);
+  } catch {
+    res.status(500).json({ error: 'Сервер қатесі' });
+  }
+});
+
 // Бір жабдық
 router.get('/:id', async (req, res) => {
   try {
@@ -94,8 +112,12 @@ router.post('/', requireAdmin, async (req, res) => {
 
 // Өңдеу
 router.put('/:id', requireAdmin, async (req, res) => {
-  const { name, inventory_number, category_id, room_id, status, purchase_date, price, notes } = req.body;
+  const { name, inventory_number, category_id, room_id, status, purchase_date, price, notes, status_reason } = req.body;
   try {
+    // Ескі статусты алу
+    const { rows: old } = await pool.query('SELECT status FROM equipment WHERE id=$1', [req.params.id]);
+    if (!old[0]) { res.status(404).json({ error: 'Жабдық табылмады' }); return; }
+
     const { rows } = await pool.query(
       `UPDATE equipment SET name=$1, inventory_number=$2, category_id=$3, room_id=$4,
        status=$5, purchase_date=$6, price=$7, notes=$8
@@ -103,7 +125,17 @@ router.put('/:id', requireAdmin, async (req, res) => {
       [name, inventory_number, category_id || null, room_id || null, status,
        purchase_date || null, price || null, notes || null, req.params.id]
     );
-    if (!rows[0]) { res.status(404).json({ error: 'Жабдық табылмады' }); return; }
+
+    // Статус өзгерсе тарихқа жазу
+    if (old[0].status !== status) {
+      const me = getUser(req);
+      await pool.query(
+        `INSERT INTO equipment_status_log (equipment_id, old_status, new_status, reason, user_id)
+         VALUES ($1, $2, $3, $4, $5)`,
+        [req.params.id, old[0].status, status, status_reason || null, me.id]
+      );
+    }
+
     res.json(rows[0]);
   } catch {
     res.status(500).json({ error: 'Сервер қатесі' });

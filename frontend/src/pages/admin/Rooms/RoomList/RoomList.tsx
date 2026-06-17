@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Plus, PencilSimple, Trash } from '@phosphor-icons/react';
 import AppLayout from '../../../../components/AppLayout/AppLayout';
 import Modal from '../../../../components/Modal/Modal';
@@ -88,7 +89,7 @@ export default function RoomList() {
                 {rooms.map((room, i) => (
                   <tr key={room.id}>
                     <td className="muted-num">{i + 1}</td>
-                    <td>{room.name}</td>
+                    <td><Link to={`/rooms/${room.id}`} className="table-link">{room.name}</Link></td>
                     <td>{room.building ?? '—'}</td>
                     <td><span className="count-badge">{room.equipment_count ?? 0}</span></td>
                     {user?.role === 'admin' && (
