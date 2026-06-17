@@ -26,10 +26,14 @@
 .print-only { display: none !important; }
 
 @media print {
-  .no-print       { display: none !important; }
-  .print-only     { display: inline !important; }
-  .rd-print-footer { display: flex !important; }
-  .layout-sidebar { display: none !important; }
-  .layout-header  { display: none !important; }
-  .card           { box-shadow: none !important; border: 1px solid #ccc !important; }
+  .sidebar          { display: none !important; }
+  .layout-header    { display: none !important; }
+  .layout-main      { margin-left: 0 !important; width: 100% !important; }
+  .layout-content   { padding: 20px !important; }
+  .no-print         { display: none !important; }
+  .print-only       { display: inline !important; }
+  .rd-print-footer  { display: flex !important; }
+  .card             { box-shadow: none !important; border: 1px solid #999 !important; }
+  table             { width: 100% !important; border-collapse: collapse !important; }
+  th, td            { border: 1px solid #ccc !important; padding: 6px 10px !important; font-size: 12px !important; }
 }

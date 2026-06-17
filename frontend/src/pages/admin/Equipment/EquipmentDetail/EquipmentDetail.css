@@ -95,10 +95,12 @@ code {
 .detail-print-btn { width: 100%; justify-content: center; }
 
 @media print {
-  .layout-sidebar     { display: none !important; }
+  .sidebar            { display: none !important; }
   .layout-header      { display: none !important; }
+  .layout-main        { margin-left: 0 !important; width: 100% !important; }
   .detail-main        { display: none !important; }
+  .detail-left        { display: none !important; }
   .detail-print-btn   { display: none !important; }
-  .detail-sidebar     { box-shadow: none !important; border: none !important; }
+  .detail-sidebar     { box-shadow: none !important; border: none !important; width: 100% !important; }
   .detail-qr-body     { display: flex !important; }
 }
