@@ -31,7 +31,7 @@ export default function AppLayout({ children, title }: Props) {
     <div className="layout">
       <aside className="sidebar">
         <div className="sidebar-logo">
-          <span className="sidebar-logo-name">ТУГЕЛ</span>
+          <span className="sidebar-logo-name">ТҮГЕЛ</span>
           <span className="sidebar-logo-sub">Жабдықтар есебі</span>
         </div>
 

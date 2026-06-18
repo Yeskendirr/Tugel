@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Plus, PencilSimple, Trash } from '@phosphor-icons/react';
+import { useNavigate } from 'react-router-dom';
+import { Plus, PencilSimple, Trash, Buildings } from '@phosphor-icons/react';
 import AppLayout from '../../../../components/AppLayout/AppLayout';
 import Modal from '../../../../components/Modal/Modal';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
@@ -14,13 +14,14 @@ interface RoomForm { name: string; building: string; }
 
 export default function RoomList() {
   const { user } = useAuth();
-  const [rooms, setRooms]       = useState<Room[]>([]);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [editRoom, setEditRoom]   = useState<Room | null>(null);
-  const [deleteId, setDeleteId]   = useState<number | null>(null);
-  const [form, setForm]           = useState<RoomForm>({ name: '', building: '' });
-  const [error, setError]         = useState('');
-  const [saving, setSaving]       = useState(false);
+  const navigate = useNavigate();
+  const [rooms, setRooms]         = useState<Room[]>([]);
+  const [modalOpen, setModalOpen]   = useState(false);
+  const [editRoom, setEditRoom]     = useState<Room | null>(null);
+  const [deleteId, setDeleteId]     = useState<number | null>(null);
+  const [form, setForm]             = useState<RoomForm>({ name: '', building: '' });
+  const [error, setError]           = useState('');
+  const [saving, setSaving]         = useState(false);
 
   const load = () => getRooms().then(r => setRooms(r.data));
   useEffect(() => { load(); }, []);
@@ -31,11 +32,18 @@ export default function RoomList() {
     setError('');
     setModalOpen(true);
   }
-  function openEdit(room: Room) {
+
+  function openEdit(e: React.MouseEvent, room: Room) {
+    e.stopPropagation();
     setEditRoom(room);
     setForm({ name: room.name, building: room.building ?? '' });
     setError('');
     setModalOpen(true);
+  }
+
+  function confirmDelete(e: React.MouseEvent, id: number) {
+    e.stopPropagation();
+    setDeleteId(id);
   }
 
   async function handleSave() {
@@ -73,41 +81,48 @@ export default function RoomList() {
           )}
         </div>
 
-        <div className="table-wrap">
-          {rooms.length === 0 ? <EmptyState /> : (
-            <table>
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Кабинет атауы</th>
-                  <th>Ғимарат</th>
-                  <th>Жабдық саны</th>
-                  {user?.role === 'admin' && <th></th>}
-                </tr>
-              </thead>
-              <tbody>
-                {rooms.map((room, i) => (
-                  <tr key={room.id}>
-                    <td className="muted-num">{i + 1}</td>
-                    <td><Link to={`/rooms/${room.id}`} className="table-link">{room.name}</Link></td>
-                    <td>{room.building ?? '—'}</td>
-                    <td><span className="count-badge">{room.equipment_count ?? 0}</span></td>
-                    {user?.role === 'admin' && (
-                      <td className="row-actions">
-                        <button className="btn btn-ghost btn-sm" onClick={() => openEdit(room)}>
-                          <PencilSimple size={13} />
-                        </button>
-                        <button className="btn btn-ghost btn-sm del-btn" onClick={() => setDeleteId(room.id)}>
-                          <Trash size={13} />
-                        </button>
-                      </td>
-                    )}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-        </div>
+        {rooms.length === 0 ? (
+          <div style={{ padding: '24px' }}><EmptyState /></div>
+        ) : (
+          <div className="room-grid">
+            {rooms.map(room => (
+              <div
+                key={room.id}
+                className="room-card"
+                onClick={() => navigate(`/rooms/${room.id}`)}
+              >
+                <div className="room-card-icon">
+                  <Buildings size={28} weight="duotone" />
+                </div>
+                <div className="room-card-body">
+                  <div className="room-card-name">{room.name}</div>
+                  {room.building && (
+                    <div className="room-card-building">{room.building}</div>
+                  )}
+                  <div className="room-card-count">
+                    {room.equipment_count ?? 0} жабдық
+                  </div>
+                </div>
+                {user?.role === 'admin' && (
+                  <div className="room-card-actions">
+                    <button
+                      className="btn btn-ghost btn-sm"
+                      onClick={e => openEdit(e, room)}
+                    >
+                      <PencilSimple size={13} />
+                    </button>
+                    <button
+                      className="btn btn-ghost btn-sm del-btn"
+                      onClick={e => confirmDelete(e, room.id)}
+                    >
+                      <Trash size={13} />
+                    </button>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <Modal
